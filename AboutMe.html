@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Gyandeep | Amateur CS Guy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Additional styles for AboutMe page */
+    body {
+      overflow-y: auto;
+      cursor: default;
+    }
+    
+    .about-container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+    
+    @media (min-width: 768px) {
+      .about-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    .about-header {
+      grid-column: 1 / -1;
+      text-align: center;
+      margin-bottom: 20px;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    }
+    
+    .about-card {
+      background: rgba(255, 255, 255, 0.9);
+      border: 3px solid black;
+      box-shadow: 5px 5px 0 #000;
+      border-radius: 15px;
+      padding: 20px;
+      transition: transform 0.3s ease;
+    }
+    
+    .about-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .about-card h2 {
+      color: #1e1eff;
+      border-bottom: 2px solid #1e1eff;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+      font-size: 1.8rem;
+    }
+    
+    .about-card ul {
+      list-style-type: none;
+      padding-left: 10px;
+    }
+    
+    .about-card ul li {
+      margin-bottom: 8px;
+      position: relative;
+      padding-left: 20px;
+    }
+    
+    .about-card ul li:before {
+      content: "•";
+      color: #1e1eff;
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
+    
+    .birthplace-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .birthplace-image {
+      border: 2px solid #000;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 4/3;
+    }
+    
+    .birthplace-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    
+    .birthplace-image:hover img {
+      transform: scale(1.05);
+    }
+    
+    .birthplace-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 8px;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+    
+    .back-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #ff5252;
+      color: white;
+      border: 2px solid #000;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 3px 3px 0 #000;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      z-index: 100;
+    }
+    
+    .back-button:hover {
+      transform: scale(1.1);
+    }
+    
+    .about-me-intro {
+      grid-column: 1 / -1;
+      text-align: center;
+      background: rgba(30, 30, 255, 0.8);
+      border: 3px solid black;
+      border-radius: 15px;
+      padding: 25px;
+      color: white;
+      margin-bottom: 20px;
+    }
+    
+    .about-me-intro h1 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+    
+    .about-me-intro p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="bg"></div>
+  <div class="custom-cursor" id="customCursor"></div>
+  
+  <a href="index.html" class="back-button" title="Back to Home">
+    <i class="fas fa-arrow-left"></i>
+  </a>
+  
+  <div class="about-container">
+    <div class="about-me-intro">
+      <h1>About Me</h1>
+      <p>I'm Gyandeep, you can call me GD. I'm from Guwahati, Assam. I'm doing my Bachelors in Computer Science from IIIT Hyderabad. I'm a huge fan of FC Barcelona and Manchester City, I follow F1 too, heil Mercedes!!!! I love playing guitar and Singing. Right now, I'm going through a character development phase, I guess you'll know it if you meet me personally.</p>
+    </div>
+    
+    <div class="about-card">
+      <h2><i class="fas fa-graduation-cap"></i> Education</h2>
+      <ul>
+        <li>Elementary School: Kendra Vidyalaya IOC Noonmati, Guwahati</li>
+        <li>Secondary & High School: NPS International School, Guwahati</li>
+        <li>AISSE: 99%</li>
+        <li>AISSCE: 94%</li>
+        <li>Bachelors: IIIT Hyderabad, CSE (Dual Degree - BTech + MS by Research)</li>
+      </ul>
+    </div>
+    
+    <div class="about-card">
+      <h2><i class="fas fa-laptop-code"></i> Skills</h2>
+      <ul>
+        <li><strong>Languages:</strong> JavaScript • C • C++ • Python • CSS • HTML</li>
+        <li><strong>SoftSkills:</strong> Teamwork • Communication • Problem Solving</li>
+      </ul>
+    </div>
+    
+    <div class="about-card">
+      <h2><i class="fas fa-guitar"></i> Hobbies & Achievements</h2>
+      <ul>
+        <li><strong>Hobbies:</strong> Singing • Guitar • Pistol Shooting • Gaming</li>
+        <li><strong>Shooting:</strong> National Level Pistol Shooter, Part of Assam State team. Representation in National Level Shooting Championship. 3rd best 10M Air Pistol shooter of KV 2018 team. Part of 2018 KV national shooting team for 64th National School Games.</li>
+        <li><strong>Music:</strong> Grade 5 in Classical Guitar and Music theory from Associated Board of Royal Schools of Music [ABRSM], Wales.</li>
+      </ul>
+    </div>
+    
+    <div class="about-card">
+      <h2><i class="fas fa-map-marker-alt"></i> Birthplace - Guwahati, Assam</h2>
+      <p>Guwahati, Assam - The Gateway to Northeast India</p>
+      <ul>
+        <li>A city nestled between the mighty Brahmaputra River and the lush Shillong Plateau</li>
+        <li>Known for the sacred Kamakhya Temple, one of the oldest of the 51 Shakti Peethas</li>
+        <li>Home to beautiful landscapes, vibrant culture, and delicious cuisine</li>
+        <li>Famous for Assam tea, serene views, and rich cultural heritage</li>
+        <li>Close to the UNESCO world heritage site Kaziranga National Park</li>
+      </ul>
+      
+      <div class="birthplace-gallery">
+        <div class="birthplace-image">
+          <img src="https://i.pinimg.com/originals/c6/dd/64/c6dd6475a63a33737c6f337c40cebbdd.jpg" alt="Guwahati City">
+          <div class="birthplace-caption">Guwahati City View</div>
+        </div>
+        
+        <div class="birthplace-image">
+          <img src="https://www.iarticle.com/wp-content/uploads/2023/03/IMAGE-143.jpg" alt="Kamakhya Temple">
+          <div class="birthplace-caption">Kamakhya Temple</div>
+        </div>
+        
+        <div class="birthplace-image">
+          <img src="https://timesofindia.indiatimes.com/photo/90128513.cms" alt="Brahmaputra River">
+          <div class="birthplace-caption">Brahmaputra River</div>
+        </div>
+        
+        <div class="birthplace-image">
+          <img src="https://www.tourmyindia.com/blog//wp-content/uploads/2018/08/Kaziranga-National-Park.jpg" alt="Kaziranga National Park">
+          <div class="birthplace-caption">Kaziranga National Park</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Add sound control and background audio -->
+  <div id="soundControl" class="sound-control">
+    <i class="fas fa-volume-up sound-icon sound-on"></i>
+  </div>
+  <audio id="backgroundAudio" loop></audio>
+  
+  <script>
+    // Simple mouse cursor tracking for consistent experience
+    const cursor = document.getElementById('customCursor');
+    
+    if (cursor) {
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.left = `${e.clientX}px`;
+        cursor.style.top = `${e.clientY}px`;
+        cursor.style.opacity = '1';
+      });
+      
+      document.addEventListener('mouseleave', () => {
+        cursor.style.opacity = '0';
+      });
+      
+      document.addEventListener('mouseenter', () => {
+        cursor.style.opacity = '1';
+      });
+    }
+  </script>
+  <!-- Add music controller before other scripts -->
+  <script src="js/music-controller.js"></script>
+  <script src="js/event-tracker.js"></script>
+</body>
+</html>

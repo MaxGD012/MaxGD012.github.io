@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Analyzer | Gyandeep Das</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    #bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: url('https://i.pinimg.com/originals/b1/81/0d/b1810d0bf4fbd370349d671a3f9389af.gif') center center / cover no-repeat;
+      z-index: -1;
+      opacity: 0.3;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    
+    .app-header {
+      background: rgba(30, 30, 255, 0.9);
+      border: 3px solid #000;
+      border-radius: 15px;
+      padding: 20px;
+      color: white;
+      text-align: center;
+      margin-bottom: 30px;
+      box-shadow: 5px 5px 0 #000;
+      position: relative;
+    }
+    
+    .app-header h1 {
+      font-family: 'Comic Neue', cursive;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    
+    .app-header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .analyzer-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+    
+    @media (min-width: 992px) {
+      .analyzer-container {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    .input-section {
+      background: rgba(255, 255, 255, 0.9);
+      border: 3px solid #000;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 5px 5px 0 #000;
+    }
+    
+    .input-section h2 {
+      font-family: 'Comic Neue', cursive;
+      margin-bottom: 15px;
+      color: #1e1eff;
+      font-size: 1.8rem;
+      border-bottom: 2px solid #1e1eff;
+      padding-bottom: 10px;
+    }
+    
+    textarea {
+      width: 100%;
+      min-height: 400px;
+      padding: 15px;
+      border: 2px solid #000;
+      border-radius: 8px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 1rem;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    
+    textarea:focus {
+      border-color: #1e1eff;
+      box-shadow: 0 0 0 2px rgba(30, 30, 255, 0.2);
+    }
+    
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+    
+    button {
+      padding: 10px 20px;
+      border: 2px solid #000;
+      border-radius: 8px;
+      background: #1e1eff;
+      color: white;
+      font-family: 'Comic Neue', cursive;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 3px 3px 0 #000;
+      outline: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 5px 5px 0 #000;
+    }
+    
+    button:active {
+      transform: translateY(0);
+      box-shadow: 1px 1px 0 #000;
+    }
+    
+    .clear-btn {
+      background: #ff5252;
+    }
+    
+    .sample-btn {
+      background: #4caf50;
+    }
+    
+    .results-section {
+      background: rgba(255, 255, 255, 0.9);
+      border: 3px solid #000;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 5px 5px 0 #000;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .results-section h2 {
+      font-family: 'Comic Neue', cursive;
+      margin-bottom: 15px;
+      color: #1e1eff;
+      font-size: 1.8rem;
+      border-bottom: 2px solid #1e1eff;
+      padding-bottom: 10px;
+    }
+    
+    .results-tabs {
+      display: flex;
+      border-bottom: 2px solid #ddd;
+      margin-bottom: 20px;
+    }
+    
+    .tab {
+      padding: 10px 20px;
+      border: none;
+      background: transparent;
+      border-radius: 8px 8px 0 0;
+      font-family: 'Comic Neue', cursive;
+      font-size: 1rem;
+      color: #333;
+      cursor: pointer;
+      margin-right: 5px;
+      transition: all 0.3s;
+      border-bottom: 3px solid transparent;
+      box-shadow: none;
+    }
+    
+    .tab.active {
+      color: #1e1eff;
+      border-bottom: 3px solid #1e1eff;
+      font-weight: bold;
+    }
+    
+    .tab-content {
+      display: none;
+      flex: 1;
+      overflow-y: auto;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .result-card {
+      background: rgba(255, 255, 255, 0.8);
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+      transition: all 0.3s;
+    }
+    
+    .result-card:hover {
+      border-color: #1e1eff;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transform: translateY(-3px);
+    }
+    
+    .result-card h3 {
+      font-family: 'Comic Neue', cursive;
+      margin-bottom: 10px;
+      color: #1e1eff;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+    
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #f0f0ff;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #d0d0ff;
+      transition: transform 0.3s;
+    }
+    
+    .stat-item:hover {
+      transform: scale(1.05);
+    }
+    
+    .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #1e1eff;
+      margin-bottom: 5px;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      color: #666;
+    }
+    
+    .word-list {
+      max-height: 300px;
+      overflow-y: auto;
+      padding: 0 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background: white;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    
+    th, td {
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    th {
+      background-color: #f0f0ff;
+      color: #1e1eff;
+      position: sticky;
+      top: 0;
+    }
+    
+    tr:hover {
+      background-color: #f5f5f5;
+    }
+    
+    .loading {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #1e1eff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-right: 15px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .back-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #ff5252;
+      color: white;
+      border: 2px solid #000;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 3px 3px 0 #000;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      z-index: 100;
+      text-decoration: none;
+    }
+    
+    .back-button:hover {
+      transform: scale(1.1);
+    }
+    
+    .word-count {
+      position: absolute;
+      right: 15px;
+      bottom: 15px;
+      font-size: 0.9rem;
+      color: #666;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 5px 10px;
+      border-radius: 20px;
+      border: 1px solid #ddd;
+    }
+    
+    /* Progress bar styles */
+    .progress-container {
+      width: 100%;
+      height: 8px;
+      background-color: #f3f3f3;
+      border-radius: 4px;
+      margin-top: 15px;
+      overflow: hidden;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background-color: #1e1eff;
+      width: 0;
+      transition: width 0.3s;
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #1e1eff;
+      border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0000cc;
+    }
+  </style>
+</head>
+<body>
+  <div id="bg"></div>
+  
+  <a href="index.html" class="back-button" title="Back to Home">
+    <i class="fas fa-arrow-left"></i>
+  </a>
+  
+  <div class="container">
+    <header class="app-header">
+      <h1>Text Analyzer</h1>
+      <p>Analyze text to count letters, words, spaces, newlines, special symbols, and tokenize to identify pronouns, prepositions, and articles.</p>
+    </header>
+    
+    <div class="analyzer-container">
+      <section class="input-section">
+        <h2>Input Text</h2>
+        <textarea id="textInput" placeholder="Enter or paste your text here (supports 10,000+ words)..."></textarea>
+        <div class="word-count">0 words</div>
+        <div class="button-container">
+          <button id="analyzeBtn" type="button">
+            <i class="fas fa-search"></i> Analyze Text
+          </button>
+          <button id="sampleBtn" class="sample-btn" type="button">
+            <i class="fas fa-file-alt"></i> Load Sample
+          </button>
+          <button id="clearBtn" class="clear-btn" type="button">
+            <i class="fas fa-trash"></i> Clear
+          </button>
+        </div>
+        <div class="progress-container">
+          <div class="progress-bar" id="analysisProgress"></div>
+        </div>
+      </section>
+      
+      <section class="results-section">
+        <h2>Analysis Results</h2>
+        
+        <div class="results-tabs">
+          <button class="tab active" data-tab="basic">Basic Stats</button>
+          <button class="tab" data-tab="pronouns">Pronouns</button>
+          <button class="tab" data-tab="prepositions">Prepositions</button>
+          <button class="tab" data-tab="articles">Articles</button>
+        </div>
+        
+        <div class="loading">
+          <div class="loading-spinner"></div>
+          <p>Analyzing text...</p>
+        </div>
+        
+        <div id="basicStats" class="tab-content active">
+          <div class="result-card">
+            <h3>Text Statistics</h3>
+            <div class="stats-grid">
+              <div class="stat-item">
+                <span class="stat-value" id="letterCount">0</span>
+                <span class="stat-label">Letters</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value" id="wordCount">0</span>
+                <span class="stat-label">Words</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value" id="spaceCount">0</span>
+                <span class="stat-label">Spaces</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value" id="newlineCount">0</span>
+                <span class="stat-label">Newlines</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value" id="specialCount">0</span>
+                <span class="stat-label">Special Symbols</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value" id="sentenceCount">0</span>
+                <span class="stat-label">Sentences</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div id="pronounsTab" class="tab-content">
+          <div class="result-card">
+            <h3>Pronoun Count</h3>
+            <p>Total pronouns found: <strong id="totalPronouns">0</strong></p>
+            <div class="word-list">
+              <table id="pronounsTable">
+                <thead>
+                  <tr>
+                    <th>Pronoun</th>
+                    <th>Count</th>
+                    <th>Category</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Pronoun data will be inserted here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <div id="prepositionsTab" class="tab-content">
+          <div class="result-card">
+            <h3>Preposition Count</h3>
+            <p>Total prepositions found: <strong id="totalPrepositions">0</strong></p>
+            <div class="word-list">
+              <table id="prepositionsTable">
+                <thead>
+                  <tr>
+                    <th>Preposition</th>
+                    <th>Count</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Preposition data will be inserted here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <div id="articlesTab" class="tab-content">
+          <div class="result-card">
+            <h3>Article Count</h3>
+            <p>Total articles found: <strong id="totalArticles">0</strong></p>
+            <div class="word-list">
+              <table id="articlesTable">
+                <thead>
+                  <tr>
+                    <th>Article</th>
+                    <th>Count</th>
+                    <th>Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Article data will be inserted here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  
+  <!-- Add sound control and background audio -->
+  <div id="soundControl" class="sound-control">
+    <i class="fas fa-volume-up sound-icon sound-on"></i>
+  </div>
+  <audio id="backgroundAudio" loop></audio>
+  
+  <script>
+    // DOM Elements
+    const textInput = document.getElementById('textInput');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const sampleBtn = document.getElementById('sampleBtn');
+    const tabs = document.querySelectorAll('.tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const wordCountDisplay = document.querySelector('.word-count');
+    const progressBar = document.getElementById('analysisProgress');
+    const loading = document.querySelector('.loading');
+
+    // Stats elements
+    const letterCount = document.getElementById('letterCount');
+    const wordCount = document.getElementById('wordCount');
+    const spaceCount = document.getElementById('spaceCount');
+    const newlineCount = document.getElementById('newlineCount');
+    const specialCount = document.getElementById('specialCount');
+    const sentenceCount = document.getElementById('sentenceCount');
+    const totalPronouns = document.getElementById('totalPronouns');
+    const pronounsTable = document.getElementById('pronounsTable').querySelector('tbody');
+    const totalPrepositions = document.getElementById('totalPrepositions');
+    const prepositionsTable = document.getElementById('prepositionsTable').querySelector('tbody');
+    const totalArticles = document.getElementById('totalArticles');
+    const articlesTable = document.getElementById('articlesTable').querySelector('tbody');
+
+    // Word lists for analysis
+    const pronounsList = {
+      'personal': ['i', 'me', 'my', 'mine', 'myself', 'you', 'your', 'yours', 'yourself', 'he', 'him', 'his', 'himself', 'she', 'her', 'hers', 'herself', 'it', 'its', 'itself', 'we', 'us', 'our', 'ours', 'ourselves', 'they', 'them', 'their', 'theirs', 'themselves'],
+      'demonstrative': ['this', 'that', 'these', 'those'],
+      'interrogative': ['who', 'whom', 'whose', 'which', 'what'],
+      'relative': ['who', 'whom', 'whose', 'which', 'that'],
+      'indefinite': ['anybody', 'anyone', 'anything', 'each', 'either', 'everybody', 'everyone', 'everything', 'neither', 'nobody', 'no one', 'nothing', 'one', 'somebody', 'someone', 'something', 'both', 'few', 'many', 'several', 'all', 'any', 'most', 'none', 'some']
+    };
+
+    const prepositionsList = [
+      'about', 'above', 'across', 'after', 'against', 'along', 'amid', 'among', 'around', 'at',
+      'before', 'behind', 'below', 'beneath', 'beside', 'between', 'beyond', 'by', 'concerning',
+      'considering', 'despite', 'down', 'during', 'except', 'for', 'from', 'in', 'inside', 'into',
+      'like', 'near', 'of', 'off', 'on', 'onto', 'out', 'outside', 'over', 'past', 'regarding',
+      'round', 'since', 'through', 'throughout', 'to', 'toward', 'towards', 'under', 'underneath',
+      'until', 'unto', 'up', 'upon', 'with', 'within', 'without'
+    ];
+
+    const articlesList = {
+      'definite': ['the'],
+      'indefinite': ['a', 'an']
+    };
+
+    // Initialize text counter
+    textInput.addEventListener('input', updateWordCount);
+
+    function updateWordCount() {
+      const text = textInput.value;
+      const wordCount = text.trim().split(/\s+/).filter(word => word !== '').length;
+      wordCountDisplay.textContent = `${wordCount} words`;
+    }
+
+    // Tab switching functionality
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Remove active class from all tabs and contents
+        tabs.forEach(t => t.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
+        
+        // Add active class to current tab and content
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab === 'basic' ? 'basicStats' : tab.dataset.tab + 'Tab').classList.add('active');
+      });
+    });
+
+    // Analyze button click handler
+    analyzeBtn.addEventListener('click', analyzeText);
+
+    // Clear button click handler
+    clearBtn.addEventListener('click', () => {
+      textInput.value = '';
+      updateWordCount();
+      resetResults();
+    });
+
+    // Sample button click handler
+    sampleBtn.addEventListener('click', loadSampleText);
+
+    function resetResults() {
+      // Reset basic stats
+      letterCount.textContent = '0';
+      wordCount.textContent = '0';
+      spaceCount.textContent = '0';
+      newlineCount.textContent = '0';
+      specialCount.textContent = '0';
+      sentenceCount.textContent = '0';
+      
+      // Reset pronoun stats
+      totalPronouns.textContent = '0';
+      pronounsTable.innerHTML = '';
+      
+      // Reset preposition stats
+      totalPrepositions.textContent = '0';
+      prepositionsTable.innerHTML = '';
+      
+      // Reset article stats
+      totalArticles.textContent = '0';
+      articlesTable.innerHTML = '';
+      
+      // Reset progress
+      progressBar.style.width = '0%';
+    }
+
+    function loadSampleText() {
+      fetch('https://www.gutenberg.org/files/1342/1342-0.txt')
+        .then(response => response.text())
+        .then(data => {
+          // Get a sample from Pride and Prejudice
+          const sample = data.substring(data.indexOf("It is a truth universally acknowledged"), 10000);
+          textInput.value = sample;
+          updateWordCount();
+        })
+        .catch(error => {
+          console.error('Error loading sample text:', error);
+          // Fallback sample text
+          textInput.value = "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.\n\nHowever little known the feelings or views of such a man may be on his first entering a neighbourhood, this truth is so well fixed in the minds of the surrounding families, that he is considered the rightful property of some one or other of their daughters.\n\n\"My dear Mr. Bennet,\" said his lady to him one day, \"have you heard that Netherfield Park is let at last?\"\n\nMr. Bennet replied that he had not.\n\n\"But it is,\" returned she; \"for Mrs. Long has just been here, and she told me all about it.\"\n\nMr. Bennet made no answer.\n\n\"Do you not want to know who has taken it?\" cried his wife impatiently.\n\n\"You want to tell me, and I have no objection to hearing it.\"\n\nThis was invitation enough.\n\n\"Why, my dear, you must know, Mrs. Long says that Netherfield is taken by a young man of large fortune from the north of England; that he came down on Monday in a chaise and four to see the place, and was so much delighted with it, that he agreed with Mr. Morris immediately; that he is to take possession before Michaelmas, and some of his servants are to be in the house by the end of next week.\"";
+          updateWordCount();
+        });
+    }
+
+    function analyzeText() {
+      const text = textInput.value;
+      
+      if (!text.trim()) {
+        alert('Please enter some text to analyze.');
+        return;
+      }
+      
+      // Show loading and reset results
+      loading.style.display = 'flex';
+      resetResults();
+      
+      // Use requestAnimationFrame to prevent UI freeze
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          // Start analysis with basic counting
+          const stats = countBasicStats(text);
+          
+          // Update progress
+          progressBar.style.width = '25%';
+          
+          // Tokenize text (for more complex analysis)
+          const tokens = tokenizeText(text);
+          
+          // Update progress
+          progressBar.style.width = '50%';
+          
+          // Perform pronoun analysis
+          const pronounsData = countPronouns(tokens);
+          
+          // Update progress
+          progressBar.style.width = '75%';
+          
+          // Perform preposition analysis
+          const prepositionsData = countPrepositions(tokens);
+          
+          // Perform article analysis
+          const articlesData = countArticles(tokens);
+          
+          // Update UI with all results
+          updateResults(stats, pronounsData, prepositionsData, articlesData);
+          
+          // Complete progress and hide loading
+          progressBar.style.width = '100%';
+          loading.style.display = 'none';
+          
+          // Reset progress bar after a delay
+          setTimeout(() => {
+            progressBar.style.width = '0%';
+          }, 1000);
+        }, 100); // Small delay to allow UI to update
+      });
+    }
+
+    function countBasicStats(text) {
+      // Count letters, spaces, newlines, special characters
+      let letters = 0;
+      let spaces = 0;
+      let newlines = 0;
+      let special = 0;
+      
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        if (/[a-zA-Z]/.test(char)) {
+          letters++;
+        } else if (char === ' ') {
+          spaces++;
+        } else if (char === '\n') {
+          newlines++;
+        } else if (!/\w/.test(char) && char !== ' ' && char !== '\n') {
+          special++;
+        }
+      }
+      
+      // Count words
+      const words = text.trim().split(/\s+/).filter(word => word !== '').length;
+      
+      // Count sentences (roughly)
+      const sentences = text.split(/[.!?]+/).filter(sentence => sentence.trim() !== '').length;
+      
+      return { letters, words, spaces, newlines, special, sentences };
+    }
+
+    function tokenizeText(text) {
+      // Simple tokenization - split by whitespace and remove punctuation
+      return text.toLowerCase()
+        .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
+        .split(/\s+/)
+        .filter(word => word !== '');
+    }
+
+    function countPronouns(tokens) {
+      const pronounCounts = {};
+      let total = 0;
+      
+      // Create a flat map of pronouns to their category
+      const pronounsMap = {};
+      for (const category in pronounsList) {
+        for (const pronoun of pronounsList[category]) {
+          pronounsMap[pronoun] = category;
+        }
+      }
+      
+      // Count occurrences of pronouns
+      for (const token of tokens) {
+        if (token in pronounsMap) {
+          if (!pronounCounts[token]) {
+            pronounCounts[token] = {
+              count: 1,
+              category: pronounsMap[token]
+            };
+          } else {
+            pronounCounts[token].count++;
+          }
+          total++;
+        }
+      }
+      
+      return { counts: pronounCounts, total };
+    }
+
+    function countPrepositions(tokens) {
+      const prepositionCounts = {};
+      let total = 0;
+      
+      // Count occurrences of prepositions
+      for (const token of tokens) {
+        if (prepositionsList.includes(token)) {
+          prepositionCounts[token] = (prepositionCounts[token] || 0) + 1;
+          total++;
+        }
+      }
+      
+      return { counts: prepositionCounts, total };
+    }
+
+    function countArticles(tokens) {
+      const articleCounts = {};
+      let total = 0;
+      
+      // Create a flat map of articles to their type
+      const articlesMap = {};
+      for (const type in articlesList) {
+        for (const article of articlesList[type]) {
+          articlesMap[article] = type;
+        }
+      }
+      
+      // Count occurrences of articles
+      for (const token of tokens) {
+        if (token in articlesMap) {
+          if (!articleCounts[token]) {
+            articleCounts[token] = {
+              count: 1,
+              type: articlesMap[token]
+            };
+          } else {
+            articleCounts[token].count++;
+          }
+          total++;
+        }
+      }
+      
+      return { counts: articleCounts, total };
+    }
+
+    function updateResults(stats, pronounsData, prepositionsData, articlesData) {
+      // Update basic stats
+      letterCount.textContent = stats.letters;
+      wordCount.textContent = stats.words;
+      spaceCount.textContent = stats.spaces;
+      newlineCount.textContent = stats.newlines;
+      specialCount.textContent = stats.special;
+      sentenceCount.textContent = stats.sentences;
+      
+      // Update pronouns
+      totalPronouns.textContent = pronounsData.total;
+      pronounsTable.innerHTML = '';
+      
+      // Sort pronouns by count (descending)
+      const sortedPronouns = Object.entries(pronounsData.counts).sort((a, b) => b[1].count - a[1].count);
+      
+      for (const [pronoun, data] of sortedPronouns) {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${pronoun}</td>
+          <td>${data.count}</td>
+          <td>${capitalizeFirstLetter(data.category)}</td>
+        `;
+        pronounsTable.appendChild(row);
+      }
+      
+      // Update prepositions
+      totalPrepositions.textContent = prepositionsData.total;
+      prepositionsTable.innerHTML = '';
+      
+      // Sort prepositions by count (descending)
+      const sortedPrepositions = Object.entries(prepositionsData.counts).sort((a, b) => b[1] - a[1]);
+      
+      for (const [preposition, count] of sortedPrepositions) {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${preposition}</td>
+          <td>${count}</td>
+        `;
+        prepositionsTable.appendChild(row);
+      }
+      
+      // Update articles
+      totalArticles.textContent = articlesData.total;
+      articlesTable.innerHTML = '';
+      
+      // Sort articles by count (descending)
+      const sortedArticles = Object.entries(articlesData.counts).sort((a, b) => b[1].count - a[1].count);
+      
+      for (const [article, data] of sortedArticles) {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${article}</td>
+          <td>${data.count}</td>
+          <td>${capitalizeFirstLetter(data.type)}</td>
+        `;
+        articlesTable.appendChild(row);
+      }
+    }
+
+    function capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+  </script>
+  <!-- Add music controller before other scripts -->
+  <script src="js/music-controller.js"></script>
+  <script src="js/event-tracker.js"></script>
+</body>
+</html>

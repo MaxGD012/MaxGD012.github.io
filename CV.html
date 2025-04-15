@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gyandeep Das | Curriculum Vitae</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Comic+Neue:wght@700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Roboto', 'Comic Neue', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    .cv-container {
+      max-width: 1000px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 40px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      position: relative;
+    }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      border-bottom: 3px solid #1e1eff;
+      padding-bottom: 20px;
+      position: relative;
+    }
+    
+    .name-section {
+      flex: 2;
+    }
+    
+    .name-section h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.8rem;
+      margin-bottom: 10px;
+      color: #1e1eff;
+    }
+    
+    .name-section h2 {
+      font-weight: 500;
+      font-size: 1.3rem;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    
+    .contact-section {
+      flex: 1;
+      text-align: right;
+    }
+    
+    .contact-item {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+    
+    .contact-item i {
+      margin-right: 8px;
+      color: #1e1eff;
+    }
+    
+    .photo-section {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid #1e1eff;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      margin-left: 20px;
+    }
+    
+    .photo-section img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    section {
+      margin-bottom: 30px;
+    }
+    
+    h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.4rem;
+      color: #1e1eff;
+      margin-bottom: 15px;
+      position: relative;
+      padding-bottom: 8px;
+      font-weight: 600;
+    }
+    
+    h3::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background-color: #1e1eff;
+    }
+    
+    ul {
+      list-style-type: none;
+      margin-left: 10px;
+    }
+    
+    ul li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 10px;
+    }
+    
+    ul li:before {
+      content: "•";
+      color: #1e1eff;
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
+    
+    .two-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+    
+    .education-item, .project-item, .experience-item {
+      margin-bottom: 20px;
+      padding-left: 15px;
+      border-left: 2px solid #e0e0e0;
+    }
+    
+    .education-item:hover, .project-item:hover, .experience-item:hover {
+      border-left: 2px solid #1e1eff;
+    }
+    
+    .edu-title, .proj-title, .exp-title {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+    }
+    
+    .edu-place, .proj-tech, .exp-company {
+      font-style: italic;
+      color: #666;
+      margin-bottom: 5px;
+    }
+    
+    .edu-year, .proj-year, .exp-year {
+      font-size: 0.9rem;
+      color: #888;
+      margin-bottom: 8px;
+    }
+    
+    .skills-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .skill-tag {
+      background-color: #f0f0ff;
+      color: #1e1eff;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      border: 1px solid #d0d0ff;
+      transition: all 0.3s ease;
+    }
+    
+    .skill-tag:hover {
+      background-color: #1e1eff;
+      color: white;
+      transform: translateY(-2px);
+    }
+    
+    .back-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #1e1eff;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 3px 8px rgba(30, 30, 255, 0.4);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+    
+    .back-button:hover {
+      transform: scale(1.1) rotate(-5deg);
+      box-shadow: 0 5px 15px rgba(30, 30, 255, 0.6);
+    }
+    
+    .pdf-button {
+      text-align: center;
+      margin-top: 30px;
+    }
+    
+    .pdf-button a {
+      display: inline-block;
+      background: #1e1eff;
+      color: white;
+      padding: 12px 25px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+    
+    .pdf-button a:hover {
+      background: transparent;
+      color: #1e1eff;
+      border: 2px solid #1e1eff;
+    }
+    
+    .pdf-button i {
+      margin-right: 8px;
+    }
+    
+    .custom-cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background: #00ffcc;
+      border: 2px solid #000;
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      transition: transform 0.1s ease, opacity 0.2s ease;
+    }
+    
+    @media (max-width: 768px) {
+      .cv-container {
+        padding: 20px;
+        margin: 20px;
+      }
+      
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .contact-section {
+        text-align: center;
+        margin-top: 20px;
+      }
+      
+      .contact-item {
+        justify-content: center;
+      }
+      
+      .photo-section {
+        margin: 20px auto;
+      }
+      
+      .two-columns {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="custom-cursor" id="customCursor"></div>
+  <a href="index.html" class="back-button" title="Back to Home">
+    <i class="fas fa-arrow-left"></i>
+  </a>
+  
+  <div class="cv-container">
+    <header>
+      <div class="name-section">
+        <h1>Gyandeep Das</h1>
+        <h2>B.Tech + MS Computer Science Student</h2>
+        <div class="contact-section">
+          <div class="contact-item">
+            <i class="fas fa-envelope"></i>
+            <span>gyandeep.das@research.iiit.ac.in</span>
+          </div>
+          <!-- <div class="contact-item">
+            <i class="fas fa-phone"></i>
+            <span>+91 9101281166</span>
+          </div> -->
+          <div class="contact-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Hyderabad, India</span>
+          </div>
+        </div>
+      </div>
+      <div class="photo-section">
+        <img src="images/profile.jpg" alt="Gyandeep Das" onerror="this.src='https://ui-avatars.com/api/?name=Gyandeep+Das&background=1e1eff&color=fff&size=150'">
+      </div>
+    </header>
+    
+    <section class="summary-section">
+      <h3>Professional Summary</h3>
+      <p>Dedicated computer science student at IIIT Hyderabad with a passion for problem-solving and technical innovation. Strong foundation in programming with skills in C, C++, Python, JavaScript, and web development. Actively engaged in  project development, with interests spanning areas like Algorithms and Data research.</p>
+    </section>
+    
+    <section class="two-columns">
+      <div class="education-section">
+        <h3>Education</h3>
+        <div class="education-item">
+          <div class="edu-title">B.Tech + MS by Research in Computer Science</div>
+          <div class="edu-place">IIIT Hyderabad</div>
+          <div class="edu-year">2024 - Present</div>
+          <p>Dual Degree Program - Bachelor of Technology with Master of Science by Research</p>
+        </div>
+        <div class="education-item">
+          <div class="edu-title">Higher Secondary (XII), AISSCE</div>
+          <div class="edu-place">NPS International School, Guwahati</div>
+          <div class="edu-year">2022 - 2024</div>
+          <p>Percentage: 94%</p>
+        </div>
+        <div class="education-item">
+          <div class="edu-title">Secondary (X), AISSE</div>
+          <div class="edu-place">NPS International School, Guwahati</div>
+          <div class="edu-year">2019-2022</div>
+          <p>Percentage: 99%</p>
+        </div>
+        <div class="education-item">
+          <div class="edu-title">Elementary Education</div>
+          <div class="edu-place">Kendra Vidyalaya IOC Noonmati, Guwahati</div>
+          <div class="edu-year">Until 2019</div>
+        </div>
+      </div>
+      
+      <div class="skills-section">
+        <h3>Technical Skills</h3>
+        <div class="skills-container">
+          <span class="skill-tag">C</span>
+          <span class="skill-tag">C++</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">HTML</span>
+          <span class="skill-tag">CSS</span>
+          <span class="skill-tag">Flask</span>
+          <span class="skill-tag">Data Structures</span>
+          <span class="skill-tag">Algorithms</span>
+          <span class="skill-tag">Problem Solving</span>
+          <span class="skill-tag">Git</span>
+        </div>
+        
+        <h3 style="margin-top: 30px;">Soft Skills</h3>
+        <div class="skills-container">
+          <span class="skill-tag">Teamwork</span>
+          <span class="skill-tag">Communication</span>
+          <span class="skill-tag">Critical Thinking</span>
+          <span class="skill-tag">Leadership</span>
+          <span class="skill-tag">Adaptability</span>
+        </div>
+        
+        <h3 style="margin-top: 30px;">Achievements & Activities</h3>
+        <ul>
+          <li>National Level Pistol Shooter, Part of Assam State team</li>
+          <li>3rd best 10M Air Pistol shooter of KV 2018 team</li>
+          <li>Part of 2018 KV national shooting team for 64th National School Games</li>
+          <li>Grade 5 in Classical Guitar and Music theory from Associated Board of Royal Schools of Music (ABRSM), Wales</li>
+        </ul>
+      </div>
+    </section>
+    
+    <section class="projects-section">
+      <h3>Projects</h3>
+      <div class="project-item">
+        <div class="proj-title">Portfolio Website</div>
+        <div class="proj-tech">HTML, CSS, JavaScript</div>
+        <div class="proj-year">2023</div>
+        <p>Interactive portfolio website with custom animations and responsive design. Features include dynamic content loading, custom cursor, and interactive elements.</p>
+      </div>
+      <div class="project-item">
+        <div class="proj-title">Home Security System [IOT Project]</div>
+        <div class="proj-tech">Concept Development, Research</div>
+        <div class="proj-year">2025</div>
+        <p>The project is at development phase. It will be completed by the end of April 2025.</p>
+      </div>
+    </section>
+    
+    <section class="interests-section">
+      <h3>Interests & Hobbies</h3>
+      <div class="two-columns">
+        <div>
+          <ul>
+            <li>Shooting - Competitive pistol shooting</li>
+            <li>Music - Playing guitar and singing</li>
+            <li>Sports - Football enthusiast (FC Barcelona and Manchester City fan)</li>
+            <li>Formula 1 - Following racing events</li>
+          </ul>
+        </div>
+        <div>
+          <ul>
+            <li>Gaming - Strategic and competitive games</li>
+            <li>Coding challenges and hackathons</li>
+            <li>Learning new technologies</li>
+            <li>Technical writing</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    
+    <div class="pdf-button">
+      <a href="Docs/CV.pdf" download><i class="fas fa-file-pdf"></i> Download CV as PDF</a>
+    </div>
+  </div>
+  
+  <!-- Add sound control and background audio -->
+  <div id="soundControl" class="sound-control">
+    <i class="fas fa-volume-up sound-icon sound-on"></i>
+  </div>
+  <audio id="backgroundAudio" loop></audio>
+  
+  <script>
+    // Simple mouse cursor tracking for consistent experience
+    const cursor = document.getElementById('customCursor');
+    
+    if (cursor) {
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.left = `${e.clientX}px`;
+        cursor.style.top = `${e.clientY}px`;
+        cursor.style.opacity = '1';
+      });
+      
+      document.addEventListener('mouseleave', () => {
+        cursor.style.opacity = '0';
+      });
+      
+      document.addEventListener('mouseenter', () => {
+        cursor.style.opacity = '1';
+      });
+    }
+  </script>
+  <!-- Add music controller before other scripts -->
+  <script src="js/music-controller.js"></script>
+  <script src="js/event-tracker.js"></script>
+</body>
+</html>
